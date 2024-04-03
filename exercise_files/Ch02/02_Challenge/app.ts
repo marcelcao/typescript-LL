@@ -1,16 +1,39 @@
-const todoItems = [
-    { id: 1, title: "Learn HTML", status: "done", completedOn: new Date("2021-09-11") },
-    { id: 2, title: "Learn TypeScript", status: "in-progress" },
-    { id: 3, title: "Write the best app in the world", status: "todo" },
+//Step 1: define an interface for todoItems//
+interface Todo {
+    id: number
+    title: string
+    status: string
+    completedOn?: Date
+}
+
+//Step 2: hard-code value with enums for status//
+
+enum ItemStatus {
+    InProgress = "in-progress",
+    ToDo = "todo",
+    Done = "done"
+}
+
+//Step 3: Apply types for addToDoItem and getNextId//
+//type 1 = itemstatus//
+//type 2 = todoitems//
+
+//Step 4: Use a generic type to define the parameter type getNextId//
+
+
+const todoItems: Todo[] = [
+    { id: 1, title: "Learn HTML", status: ItemStatus.Done, completedOn: new Date("2021-09-11") },
+    { id: 2, title: "Learn TypeScript", status: ItemStatus.InProgress },
+    { id: 3, title: "Write the best app in the world", status: ItemStatus.ToDo },
 ]
 
-function addTodoItem(todo) {
+function addTodoItem(todo: string): Todo {
     const id = getNextId(todoItems)
 
     const newTodo = {
-        id,
+        id: 4,
         title: todo,
-        status: "todo",
+        status: ItemStatus.ToDo,
     }
 
     todoItems.push(newTodo)
@@ -18,7 +41,7 @@ function addTodoItem(todo) {
     return newTodo
 }
 
-function getNextId(items) {
+function getNextId<T extends {id: number }>(items: T[]): number {
     return items.reduce((max, x) => x.id > max ? x.id : max, 0) + 1
 }
 
